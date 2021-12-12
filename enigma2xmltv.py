@@ -72,7 +72,7 @@ class enigma2xmltv():
                 self.raw_epg[channel] = None
             
             myroot = ET.fromstring(self.raw_epg[channel])
-            myxml = ET.Element("tv", {"source-info-name": "Enigma2XMLTV"})
+            myxml = ET.Element("tv", {"generator-info-name": "Enigma2XMLTV", "generator-info-url": "https://github.com/dsiggi/enigma2xmltv"})
 
             for x in range(0,len(myroot)):
                 name = ""
@@ -103,10 +103,10 @@ class enigma2xmltv():
                         if e.text is not None:
                             duration = int(e.text)
                             end = datetime.datetime(int(start[:4]), int(start[4:6]), int(start[6:8]), int(start[8:10]), int(start[10:12]), int(start[12:14])) \
-                                - datetime.timedelta(seconds=duration)
+                                + datetime.timedelta(seconds=duration)
                             end = end.strftime('%Y%m%d%H%M%S')
 
-                myprog = ET.SubElement(myxml, "programme", {'name': name, 'start': start, 'stop': end} )
+                myprog = ET.SubElement(myxml, "programme", {'name': name, 'start': start, 'stop': end, 'channel': channel} )
                 ET.SubElement(myprog, "title", { "lang": self.lang }).text = title
                 ET.SubElement(myprog, "desc", { "lang": self.lang }).text = desc + " -- " + descext
                 ET.SubElement(myprog, "category").text = ""
@@ -133,6 +133,7 @@ class enigma2xmltv():
             raise OSError("Pfad " + path + " existiert nicht.")
 
         for e in self.epg:
+            ET.indent(self.epg[e], space="\t", level=0)
             self.epg[e].write(path + "/" + e + ".xml", encoding='utf-8')
 
 
