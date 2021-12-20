@@ -112,8 +112,9 @@ class enigma2xmltv():
                 ET.SubElement(myprog, "category").text = ""
 
             # Hinzufügen der Kanalinfos
-            mychannel = ET.SubElement(myxml, "channel", {"id": name} )
+            mychannel = ET.Element("channel", {"id": name} )
             ET.SubElement(mychannel, "display-name", {"lang": self.lang}).text = name
+            myxml.insert(0, mychannel)
 
             self.epg[channel] = ET.ElementTree(myxml)
 
