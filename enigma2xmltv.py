@@ -106,7 +106,7 @@ class enigma2xmltv():
                                 + datetime.timedelta(seconds=duration)
                             end = end.strftime('%Y%m%d%H%M%S')
 
-                myprog = ET.SubElement(myxml, "programme", {'start': start, 'stop': end, 'channel': name} )
+                myprog = ET.SubElement(myxml, "programme", {'start': start + " +0000", 'stop': end + " +0000", 'channel': name} )
                 ET.SubElement(myprog, "title", { "lang": self.lang }).text = title
                 ET.SubElement(myprog, "desc", { "lang": self.lang }).text = desc + " -- " + descext
                 ET.SubElement(myprog, "category").text = ""
