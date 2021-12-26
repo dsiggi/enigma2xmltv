@@ -4,13 +4,15 @@ import xml.etree.cElementTree as ET
 import os.path
 
 class enigma2xmltv():
-    def __init__(self, server, lang: str = "de"):
+    def __init__(self, server, lang: str = "de", time_offset: str = "+0100"):
         '''
         server: IP oder Hostname der des enigma webinterfaces
         lang: Länderkürzel deiner Sprache
+        time_offset: Zeitoffset der EPG-Daten zu UTC
         '''
         self.server = "http://" + server + "/web/epgservice?sRef="
         self.lang = lang
+        self.time_offset = time_offset
         self.channels = []
         self.raw_epg = {}
         self.epg = {}
@@ -106,7 +108,7 @@ class enigma2xmltv():
                                 + datetime.timedelta(seconds=duration)
                             end = end.strftime('%Y%m%d%H%M%S')
 
-                myprog = ET.SubElement(myxml, "programme", {'start': start + " +0000", 'stop': end + " +0000", 'channel': name} )
+                myprog = ET.SubElement(myxml, "programme", {'start': start + " " + self.time_offset, 'stop': end + " " + self.time_offset, 'channel': name} )
                 ET.SubElement(myprog, "title", { "lang": self.lang }).text = title
                 ET.SubElement(myprog, "desc", { "lang": self.lang }).text = desc + " -- " + descext
                 ET.SubElement(myprog, "category").text = ""
