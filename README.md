@@ -1,3 +1,5 @@
+⚠️ Archived, moved to Codeberg: https://codeberg.org/dsiggi/enigma2xmltv ⚠️
+
 # HomeBankCSV
 
 Mit diesem Python modul lässt sich das EPG von TV-Receivern mit enigma2 System herunterladen und in das XMLTV-Format wandeln.
